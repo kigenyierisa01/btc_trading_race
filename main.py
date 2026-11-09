@@ -622,8 +622,10 @@ class BotRunner:
             msg = self._parse(raw_line)
             if msg is None:
                 continue
-            for reply in self._router.dispatch(msg):
-                self._emit(reply)
+            msg_type = msg.get("type", "")
+            replies = self._router.dispatch(msg)
+            if replies and msg_type == "bar":
+                self._emit(replies[0])
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
